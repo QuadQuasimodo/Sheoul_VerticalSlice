@@ -68,18 +68,13 @@ public class PlayerInteractions : MonoBehaviour
 
     private void CheckForInteraction()
     {
-        print($"Current: {playerInventory.inventory.Count}");
-
         if (Input.GetKeyDown(KeyCode.E) && currentInteractive != null)
         {
             if ((currentInteractive as InventoryPickup) != null)
             {
-                print($"Before: {playerInventory.inventory.Count}");
-
                 playerInventory.AddToInventory(currentInteractive as InventoryPickup);
                 (currentInteractive as InventoryPickup).Activate();
                 currentInteractive.gameObject.SetActive(false);
-                print($"After: {playerInventory.inventory.Count}");
             }
 
             else if (!currentInteractive.locked) currentInteractive.OnInteract(playerInventory);

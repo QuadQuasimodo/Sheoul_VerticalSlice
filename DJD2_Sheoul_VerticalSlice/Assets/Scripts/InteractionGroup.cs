@@ -13,13 +13,6 @@ public class InteractionGroup : MonoBehaviour
     [Tooltip("Delay between each item being activated in the group")]
     public float activationDelay;
 
-   /* [Tooltip("All objects in group activate at the same time.")]
-    public bool SimultaneousActivation = false;
-
-    public bool PingPongActivation = true;
-
-    public bool ChainActivation = false;*/
-
     [Tooltip("The chain reaction has can only be started by a certain object")]
     public bool specificReactionStarter = false;
 
