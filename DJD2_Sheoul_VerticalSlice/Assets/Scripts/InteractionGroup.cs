@@ -8,7 +8,7 @@ public class InteractionGroup : MonoBehaviour
 
     [Tooltip("Objects that will interact with each other," +
     "or otherwise are related when it comes to interactions or activations.")]
-    public List<Interactable> interactionGroup = new List<Interactable>();
+    public List<Interactable> interGroup = new List<Interactable>();
 
     [Tooltip("Delay between each item being activated in the group")]
     public float activationDelay;
@@ -25,40 +25,40 @@ public class InteractionGroup : MonoBehaviour
 
     
     [Tooltip("Index of Object that is the starter")]
-    public int indexOfStarterObject;
+    public int indexOfStarterOb;
 
     [Tooltip("The way the group will activate in the chain.")]
-    public ActivationChainTypes activationChainType;
+    public ActivationChainTypes activChainType;
 
 
     public int ActiveCount { get; set; } = 0;
     private void Awake()
     {
-        indexOfStarterObject = Mathf.Clamp(indexOfStarterObject, 0, interactionGroup.Count);
-        for(int i = 0; i<interactionGroup.Count; i++)
+        indexOfStarterOb = Mathf.Clamp(indexOfStarterOb, 0, interGroup.Count);
+        for(int i = 0; i<interGroup.Count; i++)
         {
-            interactionGroup[i].MyInterGroup = this;
-            interactionGroup[i].GroupIndex = i;
+            interGroup[i].MyInterGroup = this;
+            interGroup[i].GroupIndex = i;
 
-            if ((specificReactionStarter && i != indexOfStarterObject) ||
-                interactionGroup[i].requiresOthersFromGroup) 
+            if ((specificReactionStarter && i != indexOfStarterOb) ||
+                interGroup[i].requiresOthersFromGroup) 
             {
-                interactionGroup[i].locked = true;
+                interGroup[i].locked = true;
             }
         }
     }
 
     private void Update()
     {
-        for (int i = 0; i < interactionGroup.Count; i++)
+        for (int i = 0; i < interGroup.Count; i++)
         {
-            if (interactionGroup[i].locked)
+            if (interGroup[i].locked)
             {
-                if (ActiveCount == interactionGroup.Count - 1)
+                if (ActiveCount == interGroup.Count - 1)
                 {
-                    interactionGroup[i].locked = false;
-                    if (interactionGroup[i].activatesAutomatically)
-                        interactionGroup[i].Activate();
+                    interGroup[i].locked = false;
+                    if (interGroup[i].activatesAutomatically)
+                        interGroup[i].Activate();
                 }
             }
         }

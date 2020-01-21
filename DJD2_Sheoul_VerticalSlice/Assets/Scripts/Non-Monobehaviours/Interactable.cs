@@ -10,7 +10,6 @@ public abstract class Interactable : MonoBehaviour
 {
 
     public string interactText;
-    public string interactedText;
     public string requirementText;
 
     // if the current interacteable is in its active state
@@ -55,7 +54,7 @@ public abstract class Interactable : MonoBehaviour
     /// </summary>
     /// <param name="simult"> if all in group are activated at the same
     /// time or if there is a slow chain effect </param>
-    public virtual void OnInteract()
+    public virtual void OnInteract(PlayerInventory playerInventory)
     {
         if (MyInterGroup == null)
         {
@@ -67,22 +66,29 @@ public abstract class Interactable : MonoBehaviour
 
         else if (!locked) Activate();
 
-        if (MyInterGroup.activationChainType ==
+        if (requiresOthersFromGroup)
+            for (int i = 0; i < MyInterGroup.interGroup.Count; i++)
+            {
+                playerInventory.RemoveFromInventory(
+                    MyInterGroup.interGroup[i] as InventoryPickup); 
+            }
+
+        if (MyInterGroup.activChainType ==
             InteractionGroup.ActivationChainTypes.Simultaneous)
             SimultaneousActivation();
 
-        else if (MyInterGroup.activationChainType ==
+        else if (MyInterGroup.activChainType ==
             InteractionGroup.ActivationChainTypes.Ping_Pong)
             StartCoroutine(PingPongActivation());
 
-        else if (MyInterGroup.activationChainType ==
+        else if (MyInterGroup.activChainType ==
             InteractionGroup.ActivationChainTypes.Simetrical)
             StartCoroutine(SimmetricalActivation());
     }
 
     void SimultaneousActivation()
     {
-        foreach (Interactable i in MyInterGroup.interactionGroup)
+        foreach (Interactable i in MyInterGroup.interGroup)
         {
             if (i.activateableByOtherFromGroup)
                 i.Activate();
@@ -92,22 +98,25 @@ public abstract class Interactable : MonoBehaviour
     IEnumerator PingPongActivation()
     {
         int i, j;
-        for (i = j = GroupIndex; (i < MyInterGroup.interactionGroup.Count) || (j >= 0); i++, j--)
+        for (i = j = GroupIndex; (i < MyInterGroup.interGroup.Count)
+            || (j >= 0); i++, j--)
         {
-            if (i < MyInterGroup.interactionGroup.Count)
+            if (i < MyInterGroup.interGroup.Count)
             {
-                if (MyInterGroup.interactionGroup[i].activateableByOtherFromGroup)
+                if (MyInterGroup.interGroup[i].
+                    activateableByOtherFromGroup)
                 {
                     yield return new WaitForSeconds(MyInterGroup.activationDelay);
-                    MyInterGroup.interactionGroup[i].Activate();
+                    MyInterGroup.interGroup[i].Activate();
                 }
             }
             if (j >= 0)
             {
-                if (MyInterGroup.interactionGroup[j].activateableByOtherFromGroup)
+                if (MyInterGroup.interGroup[j].
+                    activateableByOtherFromGroup)
                 {
                     yield return new WaitForSeconds(MyInterGroup.activationDelay);
-                    MyInterGroup.interactionGroup[j].Activate();
+                    MyInterGroup.interGroup[j].Activate();
                 }
             }
         }
@@ -116,23 +125,19 @@ public abstract class Interactable : MonoBehaviour
     IEnumerator SimmetricalActivation()
     {
         int i, j;
-        for (i = j = GroupIndex; (i < MyInterGroup.interactionGroup.Count) || (j >= 0); i++, j--)
+        for (i = j = GroupIndex; (i < MyInterGroup.interGroup.Count) || (j >= 0); i++, j--)
         {
             yield return new WaitForSeconds(MyInterGroup.activationDelay);
 
-            if (i < MyInterGroup.interactionGroup.Count)
+            if (i < MyInterGroup.interGroup.Count)
             {
-                if (MyInterGroup.interactionGroup[i].activateableByOtherFromGroup)
-                {
-                    MyInterGroup.interactionGroup[i].Activate();
-                }
+                if (MyInterGroup.interGroup[i].activateableByOtherFromGroup)
+                    MyInterGroup.interGroup[i].Activate();
             }
             if (j >= 0)
             {
-                if (MyInterGroup.interactionGroup[j].activateableByOtherFromGroup)
-                {
-                    MyInterGroup.interactionGroup[j].Activate();
-                }
+                if (MyInterGroup.interGroup[j].activateableByOtherFromGroup)
+                    MyInterGroup.interGroup[j].Activate();
             }
         }
     }

@@ -20,10 +20,6 @@ public class PlayerMovement : MonoBehaviour
     private const float MIN_HEAD_LOOK_ROTATION = 75.0f;
     private const float MAX_HEAD_LOOK_ROTATION = 75.0f;
 
-    private const float CROUCH_PLAYER_HEIGHT = 1.2f;
-    private const float NORMAL_PLAYER_HEIGHT = 2.0f;
-    private const float CROUCH_TIME = 0.1f;
-
     //Istance Variables
 
     private CharacterController controller;
@@ -46,8 +42,6 @@ public class PlayerMovement : MonoBehaviour
         acceleration = Vector3.zero;
         velocity = Vector3.zero;
         velocityFactor = WALK_VELOCITY_FACTOR;
-        height = NORMAL_PLAYER_HEIGHT;
-        crouchTime = CROUCH_TIME;
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -60,7 +54,6 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         UpdateVelocityFactor();
-        UpdateHeightValue();
         UpdateRotation();
         UpdateCamera();
     }
@@ -71,13 +64,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetAxis("Strafe") != 0 && Input.GetAxis("Forward") != 0)
             velocity *= DIAGONAL_VELOCITY_FACTOR;
-    }
-
-    private void UpdateHeightValue()
-    {
-        if (Input.GetButton("Crouch")) height = CROUCH_PLAYER_HEIGHT;
-        else height = NORMAL_PLAYER_HEIGHT;
-
     }
 
     private void UpdateRotation()
@@ -109,7 +95,6 @@ public class PlayerMovement : MonoBehaviour
         UpdateAcceleration();
         UpdateVelocity();
         UpdatePosition();
-        UpdateHeight();
         if (transform.position.y < -50) Kill();
     }
 
@@ -143,12 +128,6 @@ public class PlayerMovement : MonoBehaviour
 
         controller.Move(transform.TransformVector(move));
     }
-
-    private void UpdateHeight()
-    {
-        controller.height = Mathf.MoveTowards(controller.height, height, Time.deltaTime / crouchTime);
-    }
-
 
     ///////////  MAYBE METER NOUTRA CLASSE PARA ESTA   ///////////
     /////////// CLASSE NÃO FAZER MAIS DO QUE UMA COISA ///////////
