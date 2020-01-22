@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public class Door : Interactable
+/// <summary>
+/// Interactable that triggers an animation once activated
+/// </summary>
+public class AnimatedInteractable : Interactable
 {
     private Animator _animator;
 
