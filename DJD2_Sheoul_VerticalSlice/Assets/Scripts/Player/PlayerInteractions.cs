@@ -8,7 +8,7 @@ public class PlayerInteractions : MonoBehaviour
 
     //public Intro intro;
 
-    public CanvasManager canvasManager;
+    public GameCanvasManager canvasManager;
 
     private Transform cameraTransform;
     private Interactable currentInteractive;
@@ -40,8 +40,7 @@ public class PlayerInteractions : MonoBehaviour
             if (newInteractive != null && newInteractive != currentInteractive
                 && !newInteractive.IsActive)
                 SetCurrentInteractive(newInteractive);
-            else if (newInteractive == null)
-                ClearCurrentInteractive();
+            else if (newInteractive == null) ClearCurrentInteractive();
         }
         else
             ClearCurrentInteractive();
@@ -52,9 +51,11 @@ public class PlayerInteractions : MonoBehaviour
         currentInteractive = newInteractive;
 
         if (!currentInteractive.locked)
-            canvasManager.ShowInteractionPanel(currentInteractive.interactText);
+            canvasManager.ShowInteractionPanel(
+                currentInteractive.interactText);
         else
-            canvasManager.ShowInteractionPanel(currentInteractive.requirementText);
+            canvasManager.ShowInteractionPanel(
+                currentInteractive.requirementText);
     }
 
     private void ClearCurrentInteractive()
@@ -72,12 +73,17 @@ public class PlayerInteractions : MonoBehaviour
         {
             if ((currentInteractive as InventoryPickup) != null)
             {
-                playerInventory.AddToInventory(currentInteractive as InventoryPickup);
+                playerInventory.AddToInventory(
+                    currentInteractive as InventoryPickup);
+
                 (currentInteractive as InventoryPickup).Activate();
+
                 currentInteractive.gameObject.SetActive(false);
             }
 
-            else if (!currentInteractive.locked) currentInteractive.OnInteract(playerInventory);
+            else if (!currentInteractive.locked)
+                currentInteractive.OnInteract(playerInventory);
+
             canvasManager.HideInteractionPanel();
         }
     }

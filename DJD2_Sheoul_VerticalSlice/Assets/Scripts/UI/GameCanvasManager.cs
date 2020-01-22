@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
-public class CanvasManager : MonoBehaviour
+public class GameCanvasManager : MonoBehaviour
 {
     public GameObject interactionPanel;
     public GameObject inventoryPanel;

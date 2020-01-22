@@ -29,9 +29,6 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 velocity;
     private float velocityFactor;
 
-    private float height;
-    private float crouchTime;
-
     private Vector3 spawn;
 
     // Start is called before the first frame update

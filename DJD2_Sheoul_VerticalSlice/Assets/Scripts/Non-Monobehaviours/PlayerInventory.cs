@@ -1,12 +1,12 @@
-using UnityEngine;
 using System.Collections.Generic;
 
 public class PlayerInventory
 {
-    private readonly CanvasManager canvasManager;
+
+    private readonly GameCanvasManager canvasManager;
     public readonly List<InventoryPickup> inventory;
 
-    public PlayerInventory(CanvasManager cm)
+    public PlayerInventory(GameCanvasManager cm)
     {
         canvasManager = cm;
         inventory = new List<InventoryPickup>();

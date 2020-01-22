@@ -18,7 +18,7 @@ public abstract class Interactable : MonoBehaviour
 
     [Tooltip("Starts the scene already activated.")]
     // Starts the scene already activated
-    [SerializeField] public bool startsActive;
+    public bool startsActive;
 
     [HideInInspector]
     public InteractionGroup MyInterGroup { get; set; } = null;
@@ -28,17 +28,17 @@ public abstract class Interactable : MonoBehaviour
 
     [Tooltip("Is the player able to activate this right now.")]
     // Is this item activatable by the player right now
-    [SerializeField] public bool locked = false;
+    public bool locked = false;
 
     [Tooltip("Does this need all others from it's interaction group " +
     "to be activated for itself to be activateable")]
     // Does this object need all others from its group to be activated for
     // itself to be activatable
-    [SerializeField] public bool requiresOthersFromGroup = false;
+    public bool requiresOthersFromGroup = false;
 
     [Tooltip("Activates automatically once every object in group is active")]
     ///////// INSERT MESSAGE HERE /////////
-    [SerializeField] public bool activatesAutomatically = false;
+    public bool activatesAutomatically = false;
 
     [Tooltip("Other items in the group can activate this one")]
     // Allow other items in the interactiongroup to trigger
