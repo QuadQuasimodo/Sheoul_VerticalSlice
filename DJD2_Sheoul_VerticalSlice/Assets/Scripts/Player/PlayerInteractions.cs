@@ -71,19 +71,23 @@ public class PlayerInteractions : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E) && currentInteractive != null)
         {
-            if ((currentInteractive as InventoryPickup) != null)
+
+
+            currentInteractive.OnInteract();
+
+            if (currentInteractive.consumesFromInventory)
             {
-                playerInventory.AddToInventory(
-                    currentInteractive as InventoryPickup);
 
-                (currentInteractive as InventoryPickup).Activate();
-
-                currentInteractive.gameObject.SetActive(false);
+                playerInventory.CheckConsumeItem(currentInteractive);
             }
 
-            else if (!currentInteractive.locked)
-                currentInteractive.OnInteract(playerInventory);
+            if ((currentInteractive as InventoryPickup))
+            {
+                playerInventory.AddToInventory(currentInteractive as InventoryPickup);  
+               
+            }
 
+            else 
             canvasManager.HideInteractionPanel();
         }
     }
