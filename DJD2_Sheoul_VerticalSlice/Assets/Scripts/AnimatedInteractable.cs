@@ -20,5 +20,9 @@ public class AnimatedInteractable : Interactable
         _animator.SetTrigger("Interacted");
 
         IsActive = true;
+
+        if (MyInterGroup != null)
+                MyInterGroup.ActiveCount++;
+        
     }
 }
