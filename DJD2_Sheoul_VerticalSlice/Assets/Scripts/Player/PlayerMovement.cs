@@ -60,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
             RUN_VELOCITY_FACTOR : WALK_VELOCITY_FACTOR;
 
         if (Input.GetAxis("Strafe") != 0 && Input.GetAxis("Forward") != 0)
-            velocity *= DIAGONAL_VELOCITY_FACTOR;
+            velocityFactor *= DIAGONAL_VELOCITY_FACTOR;
     }
 
     private void UpdateRotation()
@@ -76,15 +76,14 @@ public class PlayerMovement : MonoBehaviour
 
         cameraRotation.x -= Input.GetAxis("Mouse Y") * ANGULAR_VELOCITY_FACTOR;
 
-        if (cameraRotation.x > 180.0f)
-            cameraRotation.x = Mathf.Max(cameraRotation.x, MIN_HEAD_LOOK_ROTATION);
-        else
-            cameraRotation.x = Mathf.Min(cameraRotation.x, MAX_HEAD_LOOK_ROTATION);
+        if (cameraRotation.x > 180.0f) cameraRotation.x =
+                Mathf.Max(cameraRotation.x, MIN_HEAD_LOOK_ROTATION);
+
+        else cameraRotation.x =
+                Mathf.Min(cameraRotation.x, MAX_HEAD_LOOK_ROTATION);
 
         cameraTransform.localEulerAngles = cameraRotation;
     }
-
-
 
     // FixedUpdate is called every fixed framerate frame
     private void FixedUpdate()

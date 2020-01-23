@@ -1,17 +1,25 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class GameCanvasManager : MonoBehaviour
+public class CanvasManager : MonoBehaviour
 {
+    [SerializeField] private GameObject pausePanel;
+    #region Interaction Variables
+
     public GameObject interactionPanel;
     public GameObject inventoryPanel;
     public Text interactionText;
     public Image[] inventoryIcons;
 
+    #endregion
+
     public void Start()
     {
+        pausePanel.SetActive(false);
         HideInteractionPanel();
     }
+
+    #region Interaction Methods
 
     public void ShowInteractionPanel(string interactionMessage)
     {
@@ -42,4 +50,18 @@ public class GameCanvasManager : MonoBehaviour
         inventoryIcons[index].sprite = icon;
         inventoryIcons[index].color = Color.white;
     }
+    #endregion
+
+    #region Pause Methods
+    public void ActivatePausePanel()
+    {
+        pausePanel.SetActive(true);
+        inventoryPanel.SetActive(false);
+    }
+    public void DeactivatePausePanel()
+    {
+        pausePanel.SetActive(false);
+        inventoryPanel.SetActive(true);
+    }
+    #endregion
 }

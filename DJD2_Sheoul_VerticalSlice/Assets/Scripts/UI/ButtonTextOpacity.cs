@@ -4,23 +4,33 @@ using UnityEngine.EventSystems;
 
 public class ButtonTextOpacity : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    private const byte HOVER_ALPHA = 100;
+    private const byte NORMAL_ALPHA = 255;
 
+    private Color32 tempColor;
     private Text buttonText;
-    private Color32 hoverColor = new Color32(192, 168, 135, 100); 
-    private Color32 normalColor = new Color32(192, 168, 135, 255); 
 
     void Start()
     {
         buttonText = GetComponentInChildren<Text>();
+        tempColor = buttonText.color;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        buttonText.color = hoverColor;
+        tempColor.a = HOVER_ALPHA;
+        buttonText.color = tempColor;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        buttonText.color = normalColor;
+        tempColor.a = NORMAL_ALPHA;
+        buttonText.color = tempColor;
+    }
+
+    public void ResetColor()
+    {
+        tempColor.a = NORMAL_ALPHA;
+        buttonText.color = tempColor;
     }
 }
