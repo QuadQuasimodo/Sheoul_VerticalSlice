@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
 /// DO NOT USE THIS COMPONENT DIRECTLY.!-- 
@@ -16,12 +17,16 @@ public abstract class Interactable : MonoBehaviour
     [HideInInspector] public bool IsActive { get; set; } = false;
     //public bool Active {get; set;}
 
-    [Tooltip("Starts the scene already activated.")]
     // Starts the scene already activated
-    public bool startsActive;
+    [Tooltip("Starts the scene already activated.")]    
+    [SerializeField] public bool startsActive;
+
+    
 
     [HideInInspector]
+    //public List<InteractionGroup> MyInterGroups = new List<InteractionGroup>();
     public InteractionGroup MyInterGroup { get; set; } = null;
+
 
     [HideInInspector]
     public int GroupIndex { get; set; }
@@ -44,8 +49,10 @@ public abstract class Interactable : MonoBehaviour
     // Allow other items in the interactiongroup to trigger
     // this item's active state
     [SerializeField] private bool activateableByOtherFromGroup = true;
+    [SerializeField] public bool consumesFromInventory = false;
 
 
+   
 
     public abstract void Activate();
 
@@ -54,25 +61,32 @@ public abstract class Interactable : MonoBehaviour
     /// </summary>
     /// <param name="simult"> if all in group are activated at the same
     /// time or if there is a slow chain effect </param>
-    public virtual void OnInteract(PlayerInventory playerInventory)
+    public virtual void OnInteract(/*PlayerInventory playerInventory*/)
     {
         if (MyInterGroup == null)
         {
-            Activate();
+            if(!locked)
+                Activate();
             return;
         }
 
         if (locked) return;
 
-        else if (!locked) Activate();
-
         if (requiresOthersFromGroup)
-            for (int i = 0; i < MyInterGroup.interGroup.Count; i++)
-            {
-                playerInventory.RemoveFromInventory(
-                    MyInterGroup.interGroup[i] as InventoryPickup); 
-            }
+        {
+            MyInterGroup.CheckActivations();
+            if (MyInterGroup.groupActivated)
+                BeginActivation();
+            else return;
+        }
+        BeginActivation();   
 
+        
+    }
+
+
+    private void BeginActivation()
+    {
         if (MyInterGroup.activChainType ==
             InteractionGroup.ActivationChainTypes.Simultaneous)
             SimultaneousActivation();
@@ -84,7 +98,9 @@ public abstract class Interactable : MonoBehaviour
         else if (MyInterGroup.activChainType ==
             InteractionGroup.ActivationChainTypes.Simetrical)
             StartCoroutine(SimmetricalActivation());
+
     }
+
 
     void SimultaneousActivation()
     {
