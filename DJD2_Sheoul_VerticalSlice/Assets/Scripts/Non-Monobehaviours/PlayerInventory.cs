@@ -13,13 +13,13 @@ public class PlayerInventory
     public PlayerInventory(CanvasManager cm)
     {
         canvasManager = cm;
-        inventory = new List<InventoryPickup>();
+        //inventory = new List<InventoryPickup>();
         pInventory = new Dictionary<InventoryPickup, List<Interactable>>();
     }
 
     public void AddToInventory(InventoryPickup item)
     {
-        inventory.Add(item);
+        //inventory.Add(item);
         UpdateInventoryIcons();
 
         pInventory.Add(item, item.groupConsumers);
@@ -27,7 +27,7 @@ public class PlayerInventory
 
     public void RemoveFromInventory(InventoryPickup item)
     {
-        inventory.Remove(item);
+        //inventory.Remove(item);
         UpdateInventoryIcons();
 
         pInventory.Remove(item);
@@ -40,8 +40,17 @@ public class PlayerInventory
     {
         canvasManager.ClearInventoryIcons();
 
-        for (int i = 0; i < inventory.Count; ++i)
-            canvasManager.SetInventoryIcon(i, inventory[i].inventoryIcon);
+
+        // Lord forgive me dont put this on my CV
+        int c = 0;       
+        foreach (KeyValuePair<InventoryPickup, List<Interactable>> entry in pInventory)
+        {
+            canvasManager.SetInventoryIcon(c, entry.Key.inventoryIcon);
+
+            // foreach goes from top to bottom of dictionary. I hope.
+            // or else we'll just use getElementAt() by using linq
+            c++;
+        }
     }
 
     public void CheckConsumeItem(Interactable currentInter)
