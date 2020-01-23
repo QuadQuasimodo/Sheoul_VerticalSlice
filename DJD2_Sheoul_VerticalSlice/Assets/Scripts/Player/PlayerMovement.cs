@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
 
     private CharacterController controller;
     private Transform cameraTransform;
+    private AudioSource audioSource;
 
     private Vector3 acceleration;
     private Vector3 velocity;
@@ -36,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         cameraTransform = GetComponentInChildren<Camera>().transform;
+        audioSource = GetComponent<AudioSource>();
         acceleration = Vector3.zero;
         velocity = Vector3.zero;
         velocityFactor = WALK_VELOCITY_FACTOR;
@@ -53,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
         UpdateVelocityFactor();
         UpdateRotation();
         UpdateCamera();
+        UpdateWalkSound();
     }
     private void UpdateVelocityFactor()
     {
@@ -126,8 +129,17 @@ public class PlayerMovement : MonoBehaviour
         controller.Move(transform.TransformVector(move));
     }
 
-    ///////////  MAYBE METER NOUTRA CLASSE PARA ESTA   ///////////
-    /////////// CLASSE NÃO FAZER MAIS DO QUE UMA COISA ///////////
+    private void UpdateWalkSound()
+    {
+        if (controller.isGrounded && controller.velocity.magnitude > 2f &&
+            !audioSource.isPlaying)
+        {
+            audioSource.volume = Random.Range(0.8f, 1f);
+            audioSource.pitch = Random.Range(0.8f, 1.1f);
+            audioSource.Play();
+        }
+    }
+
     private void Kill()
     {
         acceleration = Vector3.zero;

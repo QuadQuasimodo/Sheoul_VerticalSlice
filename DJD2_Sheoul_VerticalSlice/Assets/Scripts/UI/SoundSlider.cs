@@ -8,7 +8,7 @@ public class SoundSlider : MonoBehaviour
     private Slider volumeBar;
     private void Start()
     {
-        AudioListener.volume = 5f;
+        AudioListener.volume = 1f;
         volumeBar = GetComponent<Slider>();
     }
 
