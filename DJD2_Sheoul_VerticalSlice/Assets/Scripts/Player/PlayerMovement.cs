@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController controller;
     private Transform cameraTransform;
     private AudioSource audioSource;
+    private SceneManager sceneManager;
 
     private Vector3 acceleration;
     private Vector3 velocity;
@@ -38,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
         controller = GetComponent<CharacterController>();
         cameraTransform = GetComponentInChildren<Camera>().transform;
         audioSource = GetComponent<AudioSource>();
+        sceneManager = new SceneManager();
         acceleration = Vector3.zero;
         velocity = Vector3.zero;
         velocityFactor = WALK_VELOCITY_FACTOR;
@@ -148,5 +150,15 @@ public class PlayerMovement : MonoBehaviour
 
         transform.localPosition = spawn;
         controller.enabled = true;
+    }
+
+    private void OnTriggerEnter(Collider col)
+    {
+        if (col.tag == "Finish")
+        {
+            sceneManager.MainMenu();
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
     }
 }

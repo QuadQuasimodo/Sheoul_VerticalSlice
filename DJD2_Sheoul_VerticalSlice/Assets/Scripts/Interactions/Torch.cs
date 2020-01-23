@@ -12,7 +12,6 @@ public class Torch : Interactable
 
 
     private AudioSource audioSource;
-    private AudioClip torchBeingLit;
 
     /// <summary>
     /// Activates the flame automatically on 'Awake',

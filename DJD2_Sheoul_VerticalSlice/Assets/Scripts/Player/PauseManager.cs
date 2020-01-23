@@ -6,7 +6,7 @@ public class PauseManager : MonoBehaviour
 {
     [SerializeField] private KeyCode pauseKey;
 
-    private bool IsPaused { get; set; }
+    public bool IsPaused { get; set; }
 
     private PlayerInteractions pInteractions;
     private PlayerMovement pMovement;
