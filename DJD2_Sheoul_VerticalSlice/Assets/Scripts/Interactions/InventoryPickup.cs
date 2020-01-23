@@ -1,11 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-//////////////////////// SIDE NOTE ////////////////////////
-
-// For the effects of these items, 
-
-///////////////////////////////////////////////////////////
-
 
 /// <summary>
 /// Class that inherits from 'Interactable', and defines
