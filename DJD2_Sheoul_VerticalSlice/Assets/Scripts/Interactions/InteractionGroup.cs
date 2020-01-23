@@ -48,9 +48,13 @@ public class InteractionGroup : MonoBehaviour
              }*/
 
 
+            if (interGroup[i] != null)
+            {
+                interGroup[i].MyInterGroup = this;
+                interGroup[i].GroupIndex = i;
 
-            interGroup[i].MyInterGroup = this;
-            interGroup[i].GroupIndex = i;
+            }
+            
 
             if ((specificReactionStarter && i != indexOfStarterOb) ||
                 interGroup[i].requiresOthersFromGroup) 
