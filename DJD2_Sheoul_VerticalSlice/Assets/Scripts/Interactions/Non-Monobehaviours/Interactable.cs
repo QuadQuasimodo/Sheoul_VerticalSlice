@@ -1,6 +1,5 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 
 /// <summary>
 /// DO NOT USE THIS COMPONENT DIRECTLY.!-- 
@@ -17,42 +16,36 @@ public abstract class Interactable : MonoBehaviour
     [HideInInspector] public bool IsActive { get; set; } = false;
     //public bool Active {get; set;}
 
+    [Tooltip("Starts the scene already activated.")]
     // Starts the scene already activated
-    [Tooltip("Starts the scene already activated.")]    
     [SerializeField] public bool startsActive;
 
-    
-
     [HideInInspector]
-    //public List<InteractionGroup> MyInterGroups = new List<InteractionGroup>();
     public InteractionGroup MyInterGroup { get; set; } = null;
-
 
     [HideInInspector]
     public int GroupIndex { get; set; }
 
     [Tooltip("Is the player able to activate this right now.")]
     // Is this item activatable by the player right now
-    public bool locked = false;
+    [SerializeField] public bool locked = false;
 
     [Tooltip("Does this need all others from it's interaction group " +
     "to be activated for itself to be activateable")]
     // Does this object need all others from its group to be activated for
     // itself to be activatable
-    public bool requiresOthersFromGroup = false;
+    [SerializeField] public bool requiresOthersFromGroup = false;
 
     [Tooltip("Activates automatically once every object in group is active")]
     ///////// INSERT MESSAGE HERE /////////
-    public bool activatesAutomatically = false;
+    [SerializeField] public bool activatesAutomatically = false;
 
     [Tooltip("Other items in the group can activate this one")]
     // Allow other items in the interactiongroup to trigger
     // this item's active state
     [SerializeField] private bool activateableByOtherFromGroup = true;
-    [SerializeField] public bool consumesFromInventory = false;
 
 
-   
 
     public abstract void Activate();
 
@@ -61,32 +54,25 @@ public abstract class Interactable : MonoBehaviour
     /// </summary>
     /// <param name="simult"> if all in group are activated at the same
     /// time or if there is a slow chain effect </param>
-    public virtual void OnInteract(/*PlayerInventory playerInventory*/)
+    public virtual void OnInteract(PlayerInventory playerInventory)
     {
         if (MyInterGroup == null)
         {
-            if(!locked)
-                Activate();
+            Activate();
             return;
         }
 
         if (locked) return;
 
+        else if (!locked) Activate();
+
         if (requiresOthersFromGroup)
-        {
-            MyInterGroup.CheckActivations();
-            if (MyInterGroup.groupActivated)
-                BeginActivation();
-            else return;
-        }
-        BeginActivation();   
+            for (int i = 0; i < MyInterGroup.interGroup.Count; i++)
+            {
+                playerInventory.RemoveFromInventory(
+                    MyInterGroup.interGroup[i] as InventoryPickup);
+            }
 
-        
-    }
-
-
-    private void BeginActivation()
-    {
         if (MyInterGroup.activChainType ==
             InteractionGroup.ActivationChainTypes.Simultaneous)
             SimultaneousActivation();
@@ -98,9 +84,7 @@ public abstract class Interactable : MonoBehaviour
         else if (MyInterGroup.activChainType ==
             InteractionGroup.ActivationChainTypes.Simetrical)
             StartCoroutine(SimmetricalActivation());
-
     }
-
 
     void SimultaneousActivation()
     {
@@ -158,4 +142,3 @@ public abstract class Interactable : MonoBehaviour
         }
     }
 }
-

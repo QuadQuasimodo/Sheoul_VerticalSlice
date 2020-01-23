@@ -1,38 +1,18 @@
 using UnityEngine;
-using System.Collections.Generic;
 
-/// <summary>
-/// Class that inherits from 'Interactable', and defines
-/// the behaviours of a 'InventoryPickup' interactable
-/// </summary>
-public class InventoryPickup : Interactable
+public class Torch : Interactable
 {
-    // Sets the 'Sprite' icon for the instance of 'InventoryPickup'
-    public Sprite inventoryIcon;
 
-    [HideInInspector]
-    public List<Interactable> groupConsumers = new List<Interactable>();
+    [SerializeField] private GameObject Fire;
 
+    private void Awake() { if (startsActive) Activate(); }
 
-    private void Awake()
-    {
-        foreach (Interactable e in MyInterGroup?.interGroup)
-        {
-            if (e.consumesFromInventory)
-                groupConsumers.Add(e);
-        }
-    }
-
-    /// <summary>
-    /// Method that overrides 'Interactable' method 'Activate',
-    /// that sets how a 'InventoryPickup' is activated - For this class,
-    /// "activated" means it's in the player's Inventory
-    /// </summary>
     public override void Activate()
     {
+        if (IsActive) return;
+        Fire.SetActive(true);
         IsActive = true;
-        if (MyInterGroup != null) MyInterGroup.ActiveCount++;
-
-        gameObject.SetActive(false);
+        if (MyInterGroup != null)
+            MyInterGroup.ActiveCount++;
     }
 }
