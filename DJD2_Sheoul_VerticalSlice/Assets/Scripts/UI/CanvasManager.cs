@@ -55,13 +55,13 @@ public class CanvasManager : MonoBehaviour
     #region Pause Methods
     public void ActivatePausePanel()
     {
-        pausePanel.SetActive(true);
-        inventoryPanel.SetActive(false);
+        pausePanel?.SetActive(true);
+        inventoryPanel?.SetActive(false);
     }
     public void DeactivatePausePanel()
     {
-        pausePanel.SetActive(false);
-        inventoryPanel.SetActive(true);
+        pausePanel?.SetActive(false);
+        inventoryPanel?.SetActive(true);
     }
     #endregion
 }

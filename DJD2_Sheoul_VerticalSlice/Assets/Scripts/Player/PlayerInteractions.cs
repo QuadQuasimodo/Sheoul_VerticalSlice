@@ -88,7 +88,7 @@ public class PlayerInteractions : MonoBehaviour
             }
 
             else 
-            canvasManager.HideInteractionPanel();
+            canvasManager?.HideInteractionPanel();
         }
     }
 }

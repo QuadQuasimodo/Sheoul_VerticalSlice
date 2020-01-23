@@ -30,8 +30,33 @@ public class InteractionGroup : MonoBehaviour
         indexOfStarterOb = Mathf.Clamp(indexOfStarterOb, 0, interGroup.Count);
         for (int i = 0; i < interGroup.Count; i++)
         {
+<<<<<<< HEAD
             interGroup[i].MyInterGroup = this;
             interGroup[i].GroupIndex = i;
+=======
+            /* int c = interGroup[i].MyInterGroups.Count;
+
+             if (c == 0) interGroup[i].MyInterGroups.Add(this);
+             else
+             {
+                 bool hasMe = false;
+                 for (int e = 0; e < c; e++)
+                 {
+                     if (interGroup[i].MyInterGroups[e] == this) hasMe = true;
+                 }
+
+                 if (!hasMe) interGroup[i].MyInterGroups.Add(this);
+             }*/
+
+
+            if (interGroup[i] != null)
+            {
+                interGroup[i].MyInterGroup = this;
+                interGroup[i].GroupIndex = i;
+
+            }
+            
+>>>>>>> 3ebcb58e5fd17823612c93c6fa926d98e2f7e995
 
             if ((specificReactionStarter && i != indexOfStarterOb) ||
                 interGroup[i].requiresOthersFromGroup)
