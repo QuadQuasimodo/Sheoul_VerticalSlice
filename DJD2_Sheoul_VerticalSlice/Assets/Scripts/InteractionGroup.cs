@@ -23,6 +23,8 @@ public class InteractionGroup : MonoBehaviour
     [Tooltip("The way the group will activate in the chain.")]
     public ActivationChainTypes activChainType;
 
+    [HideInInspector]
+    public bool groupActivated = false;
 
     public int ActiveCount { get; set; } = 0;
     
@@ -64,7 +66,7 @@ public class InteractionGroup : MonoBehaviour
         {
             if (interGroup[i].locked)
             {
-                if (ActiveCount == interGroup.Count - 1)
+                if (groupActivated)
                 {
                     interGroup[i].locked = false;
                     if (interGroup[i].activatesAutomatically)
@@ -72,5 +74,18 @@ public class InteractionGroup : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void CheckActivations()
+    {
+        groupActivated = true;
+        for (int i = 0; i < interGroup.Count; i++)
+        {
+            if (interGroup[i].requiresOthersFromGroup) continue;
+            if (!interGroup[i].IsActive) groupActivated = false;
+
+        }
+
+
     }
 }

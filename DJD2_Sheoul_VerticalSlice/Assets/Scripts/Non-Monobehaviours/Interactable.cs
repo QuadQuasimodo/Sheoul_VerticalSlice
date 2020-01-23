@@ -74,8 +74,8 @@ public abstract class Interactable : MonoBehaviour
 
         if (requiresOthersFromGroup)
         {
-
-            if (MyInterGroup.interGroup.Count == MyInterGroup.ActiveCount)
+            MyInterGroup.CheckActivations();
+            if (MyInterGroup.groupActivated)
                 BeginActivation();
             else return;
         }
