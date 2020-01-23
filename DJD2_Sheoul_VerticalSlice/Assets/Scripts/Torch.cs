@@ -12,7 +12,5 @@ public class Torch : Interactable
         if (IsActive) return;
         Fire.SetActive(true);
         IsActive = true;
-        if(MyInterGroup != null)
-            MyInterGroup.ActiveCount++;
     }
 }

@@ -36,13 +36,6 @@ namespace Assets.Scripts
 
             }
 
-            if (IsActive)
-            {
-                if (MyInterGroup != null)
-                    MyInterGroup.ActiveCount++;
-            }
-
-
         }
 
 
