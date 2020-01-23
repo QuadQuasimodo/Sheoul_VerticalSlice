@@ -8,7 +8,7 @@ public class PlayerInteractions : MonoBehaviour
 
     //public Intro intro;
 
-    public GameCanvasManager canvasManager;
+    public CanvasManager canvasManager;
 
     private Transform cameraTransform;
     private Interactable currentInteractive;

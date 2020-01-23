@@ -3,10 +3,10 @@ using System.Collections.Generic;
 public class PlayerInventory
 {
 
-    private readonly GameCanvasManager canvasManager;
+    private readonly CanvasManager canvasManager;
     public readonly List<InventoryPickup> inventory;
 
-    public PlayerInventory(GameCanvasManager cm)
+    public PlayerInventory(CanvasManager cm)
     {
         canvasManager = cm;
         inventory = new List<InventoryPickup>();
