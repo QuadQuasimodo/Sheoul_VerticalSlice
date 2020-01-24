@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 /// <summary>
-/// DO NOT USE THIS COMPONENT DIRECTLY.!-- 
+/// DO NOT USE THIS COMPONENT DIRECTLY.
 /// USE THE SCRIPTS THAT INHERIT FROM THIS,     
 ///  Like torches, doors and things the player activates directly
 /// </summary>
@@ -46,7 +46,10 @@ public abstract class Interactable : MonoBehaviour
     [SerializeField] private bool activateableByOtherFromGroup = true;
 
 
-
+    /// <summary>
+    /// Triggers the object's Active state and does whatever the object would do
+    /// once interacted with in a valid way.
+    /// </summary>
     public abstract void Activate();
 
     /// <summary>
@@ -86,7 +89,10 @@ public abstract class Interactable : MonoBehaviour
             StartCoroutine(SimmetricalActivation());
     }
 
-    void SimultaneousActivation()
+    /// <summary>
+    /// Activates all at once. 
+    /// </summary>
+    private void SimultaneousActivation()
     {
         foreach (Interactable i in MyInterGroup.interGroup)
         {
@@ -95,7 +101,12 @@ public abstract class Interactable : MonoBehaviour
         }
     }
 
-    IEnumerator PingPongActivation()
+    /// <summary>
+    /// Activates alternating between higher and lower index of the 
+    /// previously activated.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator PingPongActivation()
     {
         int i, j;
         for (i = j = GroupIndex; (i < MyInterGroup.interGroup.Count)
@@ -122,7 +133,12 @@ public abstract class Interactable : MonoBehaviour
         }
     }
 
-    IEnumerator SimmetricalActivation()
+    /// <summary>
+    /// Activates both the highest and lowest index of objects in relation
+    /// with the object originally activated.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator SimmetricalActivation()
     {
         int i, j;
         for (i = j = GroupIndex; (i < MyInterGroup.interGroup.Count) || (j >= 0); i++, j--)

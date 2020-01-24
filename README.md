@@ -8,6 +8,7 @@
   - Sistemas de _UI_ e Menus.
   - Código de movimento e interação jogador-ambiente.
   - Programação de Som
+  - Documentação de código.
 
 - Pedro Fernandes, nº21803791
   - Design de Puzzles, aplicação dos mesmos utilizando o sistema de _Interaction Groups_.
@@ -19,6 +20,7 @@
   - Sistemas de particulas e configuração de luz.
   - Sistema de _Interaction Groups_ e lógica dos objetos _Interactable_.
   - Refactoring de código original do protótipo.
+  - Geração de _docs_ Doxygen.
 
 [Link para o repositório e branch em uso.](https://github.com/QuadQuasimodo/Sheoul_VerticalSlice/tree/Old-State)
 
