@@ -20,6 +20,8 @@
   - Sistema de _Interaction Groups_ e lógica dos objetos _Interactable_.
   - Refactoring de código original do protótipo.
 
+[Link para o repositório e branch em uso.](https://github.com/QuadQuasimodo/Sheoul_VerticalSlice/tree/Old-State)
+
 ### Arquitetura da Solução
 
 - Foi criado um sistema de grupos de interagiveis. Existe uma classe _Interactable_ de onde todos os objetos que podem pertencer a este grupo herdam. 
@@ -28,12 +30,14 @@
 - Foram usados sistemas de particulas para o fogo, usufruindo do sistema de _prefabs_ e _prefab variants_ do _Unity_.
 - Para o sistema de inventário usámos uma _List_ que guarda _InventoryPickups_, estes guardam uma referencia para os icones respetivos usados para os representar na _hotbar_ no fundo do ecrâ.
   
-
 ### UML
+
 ![UML](projeto3_uml.png)
 
 ---
+
 ## Referências
+
 - Utilização de código disponibilizado pelo tutor da disciplina de Desenvolvimento de Jogos
   Digitais II, Nélio Codices, para a realização do exercício.
 
