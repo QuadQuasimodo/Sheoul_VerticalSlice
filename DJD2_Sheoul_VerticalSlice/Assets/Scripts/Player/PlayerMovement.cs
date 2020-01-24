@@ -100,63 +100,117 @@ public class PlayerMovement : MonoBehaviour
         if (transform.position.y < -50) Kill();
     }
 
+    /// <summary>
+    /// Updates the players acceleration based on the keys pressed
+    /// </summary>
     private void UpdateAcceleration()
     {
+        // Sets acceleration.x to the axis value of
+        // "Strafe" times the max acceleration constant
         acceleration.x = Input.GetAxis("Strafe") * MAX_ACCELERATION;
+
+        // Sets acceleration.z to the axis value of "Forward"
+        // times the max acceleration constant
         acceleration.z = Input.GetAxis("Forward") * MAX_ACCELERATION;
+
+        // Subtracts (-)gravity acceleration constant to
+        // acceleration.y if the controller is not grounded
         if (!controller.isGrounded) acceleration.y = -GRAVITY_ACCELERATION;
+
+        // Sets acceleration.y to 0 otherwise
         else acceleration.y = 0f;
     }
 
+    /// <summary>
+    /// Updates the players Velocity according to
+    /// its acceleration and velocityFactor
+    /// </summary>
     private void UpdateVelocity()
     {
+        // Adds acceleration * Time.fixedDeltaTime to the current velocity
         velocity += acceleration * Time.fixedDeltaTime;
 
+        // Clamps the Players velocity.x based on its
+        // velocityFactor and movement constants
         velocity.x = acceleration.x == 0f ? velocity.x = 0f : Mathf.Clamp(
             velocity.x, -MAX_STRAFE_VELOCITY * velocityFactor,
             MAX_STRAFE_VELOCITY * velocityFactor);
 
+        // Clamps the Players velocity.y based on its movement constants
         velocity.y = acceleration.y == 0f ? velocity.y = -0.1f : Mathf.Clamp(
             velocity.y, -MAX_FALL_VELOCITY, 0f);
 
+        // Clamps the Players velocity.z based on its
+        // velocityFactor and movement constants
         velocity.z = acceleration.z == 0f ? velocity.z = 0f : Mathf.Clamp(
             velocity.z, -MAX_BACKWARD_VELOCITY * velocityFactor,
             MAX_FORWARD_VELOCITY * velocityFactor);
     }
 
+    /// <summary>
+    /// Moves the player according to it's velocity
+    /// </summary>
     private void UpdatePosition()
     {
+        // Creates a new Vector3 that is set to the players velocity
+        // times the Time.fixedDeltaTime
         Vector3 move = velocity * Time.fixedDeltaTime;
 
+        // Moves the player controller according to the move Vector3
         controller.Move(transform.TransformVector(move));
     }
 
+    /// <summary>
+    /// Plays the players walking sound and
+    /// randomizes its volume and pitch for effect
+    /// </summary>
     private void UpdateWalkSound()
     {
+        // Checks if the controller is ground, if its velocity magnitude
+        // is more than 2 and if the audioSouce is not playing
         if (controller.isGrounded && controller.velocity.magnitude > 2f &&
             !audioSource.isPlaying)
         {
+            // Randomizes the audioSource volume and pitch for effect
             audioSource.volume = Random.Range(0.8f, 1f);
             audioSource.pitch = Random.Range(0.8f, 1.1f);
+
+            // Plays the audioSource
             audioSource.Play();
         }
     }
 
+    /// <summary>
+    /// Handles the player death
+    /// </summary>
     private void Kill()
     {
+        // Sets acceleration and velocity values to Vector3.zero
         acceleration = Vector3.zero;
         velocity = Vector3.zero;
+
+        // Disables the players controller
         controller.enabled = false;
 
+        // Resets the players position to its spawn position
         transform.localPosition = spawn;
+        // Enables the players controller
         controller.enabled = true;
     }
 
+    /// <summary>
+    /// Checks when the player collides with a trigger
+    /// </summary>
+    /// <param name="col">collider that collided with the player</param>
     private void OnTriggerEnter(Collider col)
     {
+        // Checks it the colliders tag is "Finish"
         if (col.tag == "Finish")
         {
+            // Goes back to the MainMenu
             sceneManager.MainMenu();
+
+            // Unlocks the cursor and makes it visible
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }

@@ -6,8 +6,6 @@ public class PlayerInteractions : MonoBehaviour
 
     private const float MAX_INTERACTION_DISTANCE = 3.0f;
 
-    //public Intro intro;
-
     public CanvasManager canvasManager;
 
     private Transform cameraTransform;
