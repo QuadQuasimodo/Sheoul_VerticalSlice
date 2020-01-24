@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Handles the properties of the player's movement.
+/// And checks the input for movement.
+/// </summary>
 public class PlayerMovement : MonoBehaviour
 {
     // Constants
@@ -33,7 +37,10 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 spawn;
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Inicializes the properties of the player's movement and
+    /// gets references to camera, controller, scenemanager and audio sources.
+    /// </summary>
     private void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -51,7 +58,9 @@ public class PlayerMovement : MonoBehaviour
         spawn.y += 2;
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Updates the state of all the factors that affect movement, every frame.
+    /// </summary>
     private void Update()
     {
         UpdateVelocityFactor();
@@ -59,6 +68,11 @@ public class PlayerMovement : MonoBehaviour
         UpdateCamera();
         UpdateWalkSound();
     }
+
+    /// <summary>
+    /// Checks for player input to decide whether the character should use its
+    /// running speed or walking speed.
+    /// </summary>
     private void UpdateVelocityFactor()
     {
         velocityFactor = Input.GetButton("Run") ?
@@ -68,6 +82,9 @@ public class PlayerMovement : MonoBehaviour
             velocity *= DIAGONAL_VELOCITY_FACTOR;
     }
 
+    /// <summary>
+    /// Rotate the character based on the X input of the mouse.
+    /// </summary>
     private void UpdateRotation()
     {
         float rotation = Input.GetAxis("Mouse X") * ANGULAR_VELOCITY_FACTOR;
@@ -75,6 +92,9 @@ public class PlayerMovement : MonoBehaviour
         transform.Rotate(0f, rotation, 0f);
     }
 
+    /// <summary>
+    /// Update the camera´s pitch based on the Y movement of the mouse.
+    /// </summary>
     private void UpdateCamera()
     {
         Vector3 cameraRotation = cameraTransform.localEulerAngles;
@@ -91,7 +111,10 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-    // FixedUpdate is called every fixed framerate frame
+    /// <summary>
+    /// Updates the state of the factors that compose the player's movement.
+    /// Every tick of the physics engine.
+    /// </summary>
     private void FixedUpdate()
     {
         UpdateAcceleration();

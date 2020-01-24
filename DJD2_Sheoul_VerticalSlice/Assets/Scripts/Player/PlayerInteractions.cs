@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Handles the player's interactions with objects in their
+/// line of sight.
+/// </summary>
 public class PlayerInteractions : MonoBehaviour
 {
 
@@ -12,19 +16,29 @@ public class PlayerInteractions : MonoBehaviour
     private Interactable currentInteractive;
     private PlayerInventory playerInventory;
 
-
+    /// <summary>
+    /// Gets reference to camera and initializes an inventory for the player.
+    /// </summary>
     public void Start()
     {
         cameraTransform = GetComponentInChildren<Camera>().transform;
         playerInventory = new PlayerInventory(canvasManager);
     }
 
+    /// <summary>
+    /// Checks for an item in the line of sight and range, as well as 
+    /// checking for an interaction input from the player every frame.
+    /// </summary>
     public void Update()
     {
         CheckForInteractive();
         CheckForInteraction();
     }
 
+    /// <summary>
+    /// Uses raycasting to find the closest Interacteable in the center
+    /// of the player's screen that is in range.
+    /// </summary>
     private void CheckForInteractive()
     {
         if (Physics.Raycast(cameraTransform.position, cameraTransform.forward,
@@ -44,6 +58,11 @@ public class PlayerInteractions : MonoBehaviour
             ClearCurrentInteractive();
     }
 
+    /// <summary>
+    /// Stores the current Interactable that can be interacted with for use
+    /// in the rest of the class.
+    /// </summary>
+    /// <param name="newInteractive"> The Interactable found by the raycast in CheckForInteractive()</param>
     private void SetCurrentInteractive(Interactable newInteractive)
     {
         currentInteractive = newInteractive;
@@ -56,6 +75,9 @@ public class PlayerInteractions : MonoBehaviour
                 currentInteractive.requirementText);
     }
 
+    /// <summary>
+    /// Clear the Current Interactive, and hide the interaction UI.
+    /// </summary>
     private void ClearCurrentInteractive()
     {
         if (currentInteractive != null)
@@ -65,6 +87,10 @@ public class PlayerInteractions : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Checks for player Input and acts on the current interactable
+    ///  accordingly.
+    /// </summary>
     private void CheckForInteraction()
     {
         if (Input.GetKeyDown(KeyCode.E) && currentInteractive != null)
